@@ -16,6 +16,7 @@ SECRET_KEY = 'django-insecure-custom-key-for-mongo-project'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*', 'onrender.com', '.railway.app', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://*.railway.app', 'https://*.onrender.com']
 
 # Application definition
 
