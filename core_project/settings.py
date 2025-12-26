@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-custom-key-for-mongo-project'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*', 'onrender.com', '.railway.app', 'localhost', '127.0.0.1']
 
 # Application definition
 
