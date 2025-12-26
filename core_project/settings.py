@@ -67,9 +67,12 @@ DATABASES = {
 }
 
 # MongoDB Connection
-# Checks both MONGODB_URI (Render/Custom) and MONGO_URL (Railway default)
 MONGO_URI = os.environ.get('MONGODB_URI') or os.environ.get('MONGO_URL') or 'mongodb+srv://jeo123:jeo123@cluster0.zyso1t4.mongodb.net/blog_db?retryWrites=true&w=majority'
-mongoengine.connect(host=MONGO_URI)
+try:
+    mongoengine.connect(host=MONGO_URI, serverSelectionTimeoutMS=5000)
+    print("✅ DATABASE STATUS: MongoDB Connected Successfully!")
+except Exception as e:
+    print(f"❌ DATABASE STATUS: Connection Failed! Error: {e}")
 
 # Sessions
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
