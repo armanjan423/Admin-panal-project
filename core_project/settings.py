@@ -60,17 +60,13 @@ WSGI_APPLICATION = 'core_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# Internal Storage (Works automatically!)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.dummy',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-# MongoDB Connection (Supports Railway MONGO_URL)
-import mongoengine
-import os
-MONGO_URI = os.environ.get('MONGODB_URI') or os.environ.get('MONGO_URL') or 'mongodb+srv://jeo123:jeo123@cluster0.zyso1t4.mongodb.net/blog_db?retryWrites=true&w=majority'
-mongoengine.connect(host=MONGO_URI)
 
 # Sessions
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'

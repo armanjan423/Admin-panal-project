@@ -5,7 +5,6 @@ from django.conf import settings
 from django.contrib.auth.hashers import check_password, make_password
 from django.core.files.storage import FileSystemStorage
 from django.http import Http404
-from bson import ObjectId
 from .models import BlogPost, AdminUser
 import datetime
 
@@ -21,13 +20,11 @@ def admin_required(view_func):
 
 def home(request):
     blogs = BlogPost.objects.all()
-    # Simple search handling if passed via GET param in home ?q=... (optional, or use search view)
-    # But we have specific search view.
     return render(request, 'home.html', {'blogs': blogs})
 
 def blog_detail(request, blog_id):
     try:
-        blog = BlogPost.objects.get(id=ObjectId(blog_id))
+        blog = BlogPost.objects.get(id=blog_id)
         # Increment View Count
         blog.view_count += 1
         blog.save()
@@ -38,8 +35,7 @@ def blog_detail(request, blog_id):
 def search(request):
     query = request.GET.get('q')
     if query:
-        # Regex search for case-insensitive partial match
-        blogs = BlogPost.objects(title__icontains=query)
+        blogs = BlogPost.objects.filter(title__icontains=query)
     else:
         blogs = []
     return render(request, 'home.html', {'blogs': blogs, 'search_query': query})
@@ -47,10 +43,8 @@ def search(request):
 # --- Admin Views ---
 
 def admin_login(request):
-    # Ensure an admin user exists for testing purposes
     if AdminUser.objects.count() == 0:
-        # Create default admin: admin / admin123
-        AdminUser(username='admin', password=make_password('admin123')).save()
+        AdminUser.objects.create(username='admin', password=make_password('admin123'))
         print("Default admin created: admin/admin123")
 
     if request.method == 'POST':
@@ -59,9 +53,8 @@ def admin_login(request):
         try:
             user = AdminUser.objects.get(username=u)
             if check_password(p, user.password):
-                if user.is_staff == 'True' or user.is_staff is True:
-                     request.session['admin_id'] = str(user.id)
-                     return redirect('dashboard')
+                 request.session['admin_id'] = str(user.id)
+                 return redirect('dashboard')
             else:
                 return render(request, 'admin_login.html', {'error': 'Invalid credentials'})
         except AdminUser.DoesNotExist:
@@ -95,22 +88,20 @@ def add_blog(request):
         if image:
             fs = FileSystemStorage()
             filename = fs.save(image.name, image)
-            image_path = fs.url(filename) # stores /media/filename.jpg
+            image_path = fs.url(filename)
             
-        blog = BlogPost(
+        blog = BlogPost.objects.create(
             title=title,
             content=content,
-            image=image_path,
-            pub_date=datetime.datetime.now()
+            image=image_path
         )
-        blog.save()
         return redirect('dashboard')
     return render(request, 'blog_form.html', {'action': 'Add'})
 
 @admin_required
 def edit_blog(request, blog_id):
     try:
-        blog = BlogPost.objects.get(id=ObjectId(blog_id))
+        blog = BlogPost.objects.get(id=blog_id)
     except BlogPost.DoesNotExist:
          return redirect('dashboard')
          
@@ -132,7 +123,7 @@ def edit_blog(request, blog_id):
 @admin_required
 def delete_blog(request, blog_id):
     try:
-        blog = BlogPost.objects.get(id=ObjectId(blog_id))
+        blog = BlogPost.objects.get(id=blog_id)
         blog.delete()
     except BlogPost.DoesNotExist:
         pass
