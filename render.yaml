@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: admin-panel-arman
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn core_project.wsgi"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: DEBUG
+        value: "False"
+      - key: MONGODB_URI
+        value: "mongodb+srv://jeo123:jeo123@cluster0.zyso1t4.mongodb.net/blog_db?retryWrites=true&w=majority"
