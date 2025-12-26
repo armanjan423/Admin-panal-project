@@ -5,7 +5,6 @@ from django.conf import settings
 from django.contrib.auth.hashers import check_password, make_password
 from django.core.files.storage import FileSystemStorage
 from django.http import Http404
-from bson import ObjectId
 from .models import BlogPost, AdminUser
 import datetime
 
@@ -27,7 +26,7 @@ def home(request):
 
 def blog_detail(request, blog_id):
     try:
-        blog = BlogPost.objects.get(id=ObjectId(blog_id))
+        blog = BlogPost.objects.get(id=blog_id)
         # Increment View Count
         blog.view_count += 1
         blog.save()
@@ -110,7 +109,7 @@ def add_blog(request):
 @admin_required
 def edit_blog(request, blog_id):
     try:
-        blog = BlogPost.objects.get(id=ObjectId(blog_id))
+        blog = BlogPost.objects.get(id=blog_id)
     except BlogPost.DoesNotExist:
          return redirect('dashboard')
          
@@ -132,7 +131,7 @@ def edit_blog(request, blog_id):
 @admin_required
 def delete_blog(request, blog_id):
     try:
-        blog = BlogPost.objects.get(id=ObjectId(blog_id))
+        blog = BlogPost.objects.get(id=blog_id)
         blog.delete()
     except BlogPost.DoesNotExist:
         pass

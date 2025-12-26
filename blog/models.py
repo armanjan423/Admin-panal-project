@@ -1,24 +1,23 @@
-
-from mongoengine import Document, StringField, DateTimeField, IntField, ReferenceField
+from django.db import models
 import datetime
 
-class BlogPost(Document):
-    title = StringField(max_length=200, required=True)
-    content = StringField(required=True)
-    image = StringField()  # Stores the relative path to MEDIA_ROOT
-    pub_date = DateTimeField(default=datetime.datetime.now)
-    view_count = IntField(default=0)
-    
-    meta = {
-        'collection': 'blog_posts',
-        'ordering': ['-pub_date']
-    }
+class BlogPost(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    image = models.CharField(max_length=500, blank=True, null=True)
+    pub_date = models.DateTimeField(auto_now_add=True)
+    view_count = models.IntegerField(default=0)
 
-class AdminUser(Document):
-    username = StringField(max_length=150, required=True, unique=True)
-    password = StringField(required=True) # Hashed password
-    is_staff = StringField(default="True") # Keeping it simple string or bool
-    
-    meta = {
-        'collection': 'admin_users'
-    }
+    class Meta:
+        ordering = ['-pub_date']
+
+    def __str__(self):
+        return self.title
+
+class AdminUser(models.Model):
+    username = models.CharField(max_length=150, unique=True)
+    password = models.CharField(max_length=255) # Hashed
+    is_staff = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.username
