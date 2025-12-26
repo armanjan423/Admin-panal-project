@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if search_query %}
+<div class="mb-4">
+    <h3>Search Rules: "{{ search_query }}"</h3>
+    <a href="{% url 'home' %}" class="text-decoration-none text-muted">Clear Search</a>
+</div>
+{% endif %}
+
+<div class="row g-4">
+    {% for blog in blogs %}
+    <div class="col-md-4">
+        <a href="{% url 'blog_detail' blog.id %}" class="text-decoration-none text-dark">
+            <div class="card h-100">
+                {% if blog.image %}
+                <img src="{{ blog.image }}" class="card-img-top" alt="{{ blog.title }}"
+                    style="height: 200px; object-fit: cover;">
+                {% else %}
+                <div
+                    style="height: 200px; background-color: #eee; display: flex; align-items: center; justify-content: center; color: #aaa;">
+                    No Image</div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ blog.title }}</h5>
+                    <p class="card-text text-muted small mb-2">
+                        {{ blog.pub_date|date:"M d, Y" }} &bull; {{ blog.view_count }} views
+                    </p>
+                    <p class="card-text">{{ blog.content|truncatewords:20 }}</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <h3 class="text-muted">No posts found.</h3>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

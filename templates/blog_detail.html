@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ blog.title }}</li>
+            </ol>
+        </nav>
+
+        {% if blog.image %}
+        <img src="{{ blog.image }}" class="img-fluid rounded-4 mb-4 w-100" alt="{{ blog.title }}"
+            style="max-height: 400px; object-fit: cover;">
+        {% endif %}
+
+        <div class="d-flex align-items-center text-muted mb-4">
+            <span>{{ blog.pub_date|date:"F d, Y" }}</span>
+            <span class="mx-2">&bull;</span>
+            <span>{{ blog.view_count }} views</span>
+        </div>
+
+        <h1 class="display-4 fw-bold mb-4">{{ blog.title }}</h1>
+
+        <div class="lead" style="line-height: 1.8;">
+            {{ blog.content|linebreaks }}
+        </div>
+
+        <hr class="my-5">
+        <div class="text-center">
+            <a href="{% url 'home' %}" class="btn btn-outline-dark">Back to Articles</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
