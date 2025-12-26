@@ -144,20 +144,13 @@
             padding: 5px 10px;
         }
 
-        .login-btn {
-            border: 2px solid #6366f1;
+        .view-count-home {
+            background: rgba(99, 102, 241, 0.1);
             color: #6366f1;
-            background: transparent;
-            border-radius: 12px;
-            padding: 8px 20px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .login-btn:hover {
-            background: var(--primary-gradient);
-            color: white;
-            border-color: transparent;
+            padding: 3px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
         }
     </style>
 </head>
@@ -197,23 +190,19 @@
         let allBlogs = [];
 
         document.addEventListener('DOMContentLoaded', () => {
-            allBlogs = JSON.parse(localStorage.getItem('blogs')) || [
-                {
-                    title: "Welcome to your new Blog!",
-                    content: "This is a sample blog post. You can delete this and add your own from the Admin Panel.",
-                    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1000",
-                    date: "Oct 24, 2025"
-                },
-                {
-                    title: "The Future of Design",
-                    content: "Exploring how AI is changing the landscape of modern web design and premium aesthetics.",
-                    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1000",
-                    date: "Oct 25, 2025"
-                }
-            ];
+            allBlogs = JSON.parse(localStorage.getItem('blogs')) || [];
 
-            // Save initial sample if nothing exists
-            if (!localStorage.getItem('blogs')) {
+            if (allBlogs.length === 0) {
+                // Initial Default Blogs if empty
+                allBlogs = [
+                    {
+                        title: "Welcome to your new Blog!",
+                        content: "This is a sample blog post. You can delete this and add your own from the Admin Panel.",
+                        image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1000",
+                        date: "Oct 24, 2025",
+                        views: 128
+                    }
+                ];
                 localStorage.setItem('blogs', JSON.stringify(allBlogs));
             }
 
@@ -237,14 +226,17 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="card blog-card">
                             <div class="card-img-container">
-                                <span class="badge-category">Tech</span>
+                                <span class="badge-category">Trending</span>
                                 <img src="${blog.image || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1000'}" class="card-img-top" alt="${blog.title}">
                             </div>
                             <div class="card-body p-4">
-                                <div class="text-muted small mb-2"><i class="far fa-calendar-alt me-1"></i> ${blog.date}</div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="text-muted small"><i class="far fa-calendar-alt me-1"></i> ${blog.date}</div>
+                                    <div class="view-count-home"><i class="fas fa-eye me-1"></i> ${blog.views || 0}</div>
+                                </div>
                                 <h4 class="card-title fw-bold mb-3">${blog.title}</h4>
                                 <p class="card-text text-muted mb-4">${blog.content.substring(0, 100)}...</p>
-                                <a href="detail.html?id=${index}" class="btn-style text-decoration-none d-inline-block">Read Article</a>
+                                <a href="detail.html?id=${index}" class="btn-style text-decoration-none d-inline-block shadow-sm">Read Article</a>
                             </div>
                         </div>
                     </div>

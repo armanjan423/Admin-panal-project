@@ -36,11 +36,36 @@
             border-radius: 12px;
             font-weight: 700;
             width: 100%;
+            transition: 0.3s;
+        }
+
+        .btn-save:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
         }
 
         .btn-cancel {
             border-radius: 12px;
             padding: 12px 30px;
+        }
+
+        .preview-box {
+            width: 100%;
+            height: 200px;
+            border: 2px dashed #e2e8f0;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-top: 10px;
+            background: #f8fafc;
+        }
+
+        .preview-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
@@ -56,26 +81,29 @@
             <form id="addForm">
                 <div class="mb-4">
                     <label class="form-label fw-bold">Post Title</label>
-                    <input type="text" id="title" class="form-control" placeholder="Giving it a catchy name..."
-                        required>
+                    <input type="text" id="title" class="form-control" placeholder="Enter a catchy title..." required>
                 </div>
+
                 <div class="mb-4">
-                    <label class="form-label fw-bold">Featured Image Link (URL)</label>
-                    <input type="text" id="image" class="form-control"
-                        placeholder="https://source.unsplash.com/your-image">
-                    <small class="text-muted">Use a high-quality link from Unsplash, etc.</small>
+                    <label class="form-label fw-bold">Upload Picture from PC</label>
+                    <input type="file" id="imageFile" class="form-control" accept="image/*" required>
+                    <div class="preview-box" id="previewBox">
+                        <span class="text-muted small">Image Preview will appear here</span>
+                    </div>
                 </div>
+
                 <div class="mb-4">
                     <label class="form-label fw-bold">Article Content</label>
                     <textarea id="content" class="form-control" rows="10" placeholder="Write your story here..."
                         required></textarea>
                 </div>
+
                 <div class="row pt-2">
                     <div class="col-6">
                         <a href="dashboard.html" class="btn btn-light btn-cancel w-100">Cancel</a>
                     </div>
                     <div class="col-6">
-                        <button type="submit" class="btn btn-save shadow-sm">Publish Story</button>
+                        <button type="submit" id="submitBtn" class="btn btn-save shadow-sm">Publish Story</button>
                     </div>
                 </div>
             </form>
@@ -85,13 +113,36 @@
     <script>
         if (sessionStorage.getItem('isAdmin') !== 'true') window.location.href = 'login.html';
 
+        let base64Image = "";
+
+        // Handle Image Selection and Convert to Base64
+        document.getElementById('imageFile').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    base64Image = event.target.result;
+                    const previewBox = document.getElementById('previewBox');
+                    previewBox.innerHTML = `<img src="${base64Image}">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
         document.getElementById('addForm').addEventListener('submit', (e) => {
             e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerText = "Publishing...";
+            submitBtn.disabled = true;
+
             const newBlog = {
+                id: Date.now(), // Unique ID
                 title: document.getElementById('title').value,
-                image: document.getElementById('image').value || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1000',
+                image: base64Image,
                 content: document.getElementById('content').value,
-                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                views: 0 // Initialize real views
             };
 
             const blogs = JSON.parse(localStorage.getItem('blogs')) || [];

@@ -207,7 +207,7 @@
                         <i class="fas fa-eye"></i>
                     </div>
                     <div class="text-muted small fw-600">Total Views</div>
-                    <div class="h3 fw-bold mb-0">1.2k</div>
+                    <div class="h3 fw-bold mb-0" id="totalViews">0</div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -215,8 +215,8 @@
                     <div class="icon-stat" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
                         <i class="fas fa-users"></i>
                     </div>
-                    <div class="text-muted small fw-600">Active Users</div>
-                    <div class="h3 fw-bold mb-0">48</div>
+                    <div class="text-muted small fw-600">Status</div>
+                    <div class="h3 fw-bold mb-0 text-success">Online</div>
                 </div>
             </div>
         </div>
@@ -229,8 +229,8 @@
                         <tr>
                             <th>Image</th>
                             <th>Title</th>
+                            <th>Views</th>
                             <th>Date Published</th>
-                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -247,7 +247,12 @@
 
         function loadBlogs() {
             const blogs = JSON.parse(localStorage.getItem('blogs')) || [];
+
+            // Calculate Total Stats
+            const totalViews = blogs.reduce((sum, b) => sum + (b.views || 0), 0);
             document.getElementById('totalPosts').innerText = blogs.length;
+            document.getElementById('totalViews').innerText = totalViews;
+
             const tbody = document.getElementById('dash-table');
             tbody.innerHTML = '';
 
@@ -260,15 +265,18 @@
                 tbody.innerHTML += `
                     <tr>
                         <td>
-                            <img src="${blog.image || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=100'}" 
+                            <img src="${blog.image || 'https://via.placeholder.com/50'}" 
                                  class="rounded-3" style="width: 50px; height: 50px; object-fit: cover;">
                         </td>
                         <td>
-                            <div class="fw-bold">${blog.title}</div>
-                            <div class="text-muted small">${blog.content.substring(0, 30)}...</div>
+                            <div class="fw-bold text-dark">${blog.title}</div>
+                        </td>
+                        <td>
+                            <span class="badge bg-primary-subtle text-primary fw-bold" style="padding: 8px 12px; border-radius: 8px;">
+                                <i class="fas fa-eye me-1"></i> ${blog.views || 0}
+                            </span>
                         </td>
                         <td class="text-muted">${blog.date}</td>
-                        <td><span class="badge bg-success-subtle text-success px-3 rounded-pill">Published</span></td>
                         <td>
                             <button onclick="deleteBlog(${index})" class="action-btn btn-delete" title="Delete">
                                 <i class="fas fa-trash-alt"></i>

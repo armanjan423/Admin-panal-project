@@ -39,7 +39,8 @@
         }
 
         .btn-back {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             border: 1px solid #e2e8f0;
             border-radius: 15px;
             padding: 10px 20px;
@@ -56,18 +57,30 @@
             letter-spacing: 1px;
             font-size: 0.9rem;
         }
+
+        .view-badge {
+            background: #f1f5f9;
+            color: #64748b;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
     </style>
 </head>
 
 <body>
     <div class="nav-float">
-        <a href="index.html" class="btn-back"><i class="fas fa-arrow-left me-2"></i> Gallery</a>
+        <a href="index.html" class="btn-back"><i class="fas fa-arrow-left me-2"></i> Back to Gallery</a>
     </div>
 
     <div class="container mt-5 pt-4">
         <div class="content-area">
             <img id="blog-image" src="" class="hero-img" alt="Blog Image">
-            <div id="blog-date" class="date mb-2"></div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div id="blog-date" class="date"></div>
+                <div class="view-badge"><i class="fas fa-eye me-1"></i> <span id="blog-views">0</span> Views</div>
+            </div>
             <h1 id="blog-title" class="display-4 fw-bold mb-4" style="color: #0f172a;"></h1>
             <div id="blog-content" style="font-size: 1.2rem; white-space: pre-line;"></div>
         </div>
@@ -85,10 +98,20 @@
             }
 
             const blog = blogs[id];
+
+            // Real View Incremental Logic
+            if (!sessionStorage.getItem('viewed_' + id)) {
+                blog.views = (blog.views || 0) + 1;
+                sessionStorage.setItem('viewed_' + id, 'true');
+                localStorage.setItem('blogs', JSON.stringify(blogs));
+            }
+
+            // Populate Content
             document.getElementById('blog-title').innerText = blog.title;
             document.getElementById('blog-content').innerText = blog.content;
             document.getElementById('blog-date').innerText = blog.date;
             document.getElementById('blog-image').src = blog.image;
+            document.getElementById('blog-views').innerText = blog.views || 0;
             document.title = blog.title + " | Astra Reader";
         });
     </script>
