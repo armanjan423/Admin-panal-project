@@ -29,6 +29,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Add this for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -65,20 +66,14 @@ DATABASES = {
 }
 
 # MongoDB Connection
-mongoengine.connect(
-    db='blog_db',
-    host='mongodb://localhost:27017/blog_db?uuidRepresentation=standard',
-    # username='', password='' # Add if needed
-)
+MONGO_URI = os.environ.get('MONGODB_URI', 'mongodb+srv://jeo123:jeo123@cluster0.zyso1t4.mongodb.net/blog_db?retryWrites=true&w=majority')
+mongoengine.connect(host=MONGO_URI)
 
 # Sessions
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 SESSION_FILE_PATH = os.path.join(BASE_DIR, 'sessions')
 if not os.path.exists(SESSION_FILE_PATH):
     os.makedirs(SESSION_FILE_PATH)
-
-# Password hashing logic (custom) will essentially use bcrypt or similar, 
-# but for simplicity we might use Django's hashers if imported manually.
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -96,9 +91,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles" # Required for Whitenoise
 
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
