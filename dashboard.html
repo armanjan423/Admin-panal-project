@@ -4,55 +4,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Astra Dashboard | Control Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --sidebar-bg: #0f172a;
+        }
+
         body {
-            background: #f8f9fa;
+            background: #f1f5f9;
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
         }
 
         .sidebar {
-            background: #2c3e50;
+            background: var(--sidebar-bg);
             color: white;
             min-height: 100vh;
-            padding: 20px;
+            width: 260px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 30px 20px;
+            transition: all 0.3s;
+            z-index: 1000;
         }
 
         .main-content {
+            margin-left: 260px;
+            padding: 40px;
+            transition: all 0.3s;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-right: 10px;
+        }
+
+        .nav-link-custom {
+            color: #94a3b8;
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link-custom:hover,
+        .nav-link-custom.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link-custom i {
+            margin-right: 12px;
+            width: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            border: none;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            height: 100%;
+        }
+
+        .icon-stat {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 25px;
             padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: none;
+        }
+
+        .btn-add {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 25px;
+            font-weight: 600;
+        }
+
+        .btn-add:hover {
+            color: white;
+            opacity: 0.9;
+        }
+
+        .table thead th {
+            background: #f8fafc;
+            border: none;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 15px;
+        }
+
+        .table tbody td {
+            padding: 20px 15px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            transition: all 0.2s;
+        }
+
+        .btn-delete {
+            color: #ef4444;
+            background: #fee2e2;
+            border: none;
+        }
+
+        .btn-delete:hover {
+            background: #ef4444;
+            color: white;
         }
     </style>
 </head>
 
 <body>
-    <div class="d-flex">
-        <div class="sidebar col-md-2">
-            <h3>Admin Panel</h3>
-            <hr>
-            <a href="dashboard.html" class="btn btn-light w-100 mb-2">Dashboard</a>
-            <a href="add-blog.html" class="btn btn-success w-100 mb-2">+ New Blog</a>
-            <a href="index.html" class="btn btn-outline-light w-100 mt-5">Logout</a>
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-meteor"></i> ASTRA
         </div>
-        <div class="main-content col-md-10">
-            <h1>Dynamic Blog Dashboard</h1>
-            <p>Welcome, Admin! Manage your posts here.</p>
+        <nav>
+            <a href="dashboard.html" class="nav-link-custom active">
+                <i class="fas fa-th-large"></i> Dashboard
+            </a>
+            <a href="add-blog.html" class="nav-link-custom">
+                <i class="fas fa-plus-circle"></i> New Post
+            </a>
+            <a href="index.html" class="nav-link-custom mt-auto">
+                <i class="fas fa-external-link-alt"></i> View Site
+            </a>
+            <a href="index.html" onclick="sessionStorage.clear()" class="nav-link-custom text-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </nav>
+    </div>
 
-            <div class="card shadow-sm mt-4">
-                <div class="card-body">
-                    <table class="table table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>#</th>
-                                <th>Title</th>
-                                <th>Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="dash-table">
-                            <!-- Blogs will list here -->
-                        </tbody>
-                    </table>
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <h2 class="fw-800 mb-1">Dashboard</h2>
+                <p class="text-muted mb-0">Manage your blog content and statistics.</p>
+            </div>
+            <a href="add-blog.html" class="btn-add text-decoration-none shadow-sm">
+                <i class="fas fa-plus me-2"></i> Create New Post
+            </a>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="icon-stat" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <div class="text-muted small fw-600">Total Posts</div>
+                    <div class="h3 fw-bold mb-0" id="totalPosts">0</div>
                 </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="icon-stat" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="text-muted small fw-600">Total Views</div>
+                    <div class="h3 fw-bold mb-0">1.2k</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="icon-stat" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="text-muted small fw-600">Active Users</div>
+                    <div class="h3 fw-bold mb-0">48</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <h5 class="fw-bold mb-4">Recent Posts</h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Date Published</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dash-table">
+                        <!-- Blogs will list here -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -62,17 +247,32 @@
 
         function loadBlogs() {
             const blogs = JSON.parse(localStorage.getItem('blogs')) || [];
+            document.getElementById('totalPosts').innerText = blogs.length;
             const tbody = document.getElementById('dash-table');
             tbody.innerHTML = '';
+
+            if (blogs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-5 text-muted">No posts yet. Start by creating one!</td></tr>';
+                return;
+            }
 
             blogs.forEach((blog, index) => {
                 tbody.innerHTML += `
                     <tr>
-                        <td>${index + 1}</td>
-                        <td>${blog.title}</td>
-                        <td>${blog.date}</td>
                         <td>
-                            <button onclick="deleteBlog(${index})" class="btn btn-danger btn-sm">Delete</button>
+                            <img src="${blog.image || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=100'}" 
+                                 class="rounded-3" style="width: 50px; height: 50px; object-fit: cover;">
+                        </td>
+                        <td>
+                            <div class="fw-bold">${blog.title}</div>
+                            <div class="text-muted small">${blog.content.substring(0, 30)}...</div>
+                        </td>
+                        <td class="text-muted">${blog.date}</td>
+                        <td><span class="badge bg-success-subtle text-success px-3 rounded-pill">Published</span></td>
+                        <td>
+                            <button onclick="deleteBlog(${index})" class="action-btn btn-delete" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
                         </td>
                     </tr>
                 `;
@@ -80,10 +280,12 @@
         }
 
         function deleteBlog(index) {
-            let blogs = JSON.parse(localStorage.getItem('blogs')) || [];
-            blogs.splice(index, 1);
-            localStorage.setItem('blogs', JSON.stringify(blogs));
-            loadBlogs();
+            if (confirm("Are you sure you want to delete this post?")) {
+                let blogs = JSON.parse(localStorage.getItem('blogs')) || [];
+                blogs.splice(index, 1);
+                localStorage.setItem('blogs', JSON.stringify(blogs));
+                loadBlogs();
+            }
         }
 
         loadBlogs();

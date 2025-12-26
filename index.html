@@ -4,85 +4,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blog | Home</title>
+    <title>Premium Blog | Stories That Matter</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --text-dark: #1e293b;
+        }
+
         body {
-            background: #f4f7f6;
-            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
         }
 
         .navbar {
-            background: #2c3e50;
+            background: rgba(255, 255, 255, 0.8) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero {
+            background: var(--primary-gradient);
+            padding: 100px 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+            margin-bottom: 50px;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
         }
 
         .blog-card {
+            background: white;
             border: none;
-            border-radius: 15px;
-            transition: 0.3s;
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             height: 100%;
         }
 
         .blog-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
         }
 
-        .hero {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        .card-img-container {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .blog-card:hover .card-img-top {
+            transform: scale(1.1);
+        }
+
+        .badge-category {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--primary-gradient);
             color: white;
-            padding: 60px 0;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .btn-style {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+        .btn-style:hover {
+            opacity: 0.9;
+            color: white;
+        }
+
+        .search-box {
+            background: white;
+            border-radius: 15px;
+            padding: 10px 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            max-width: 500px;
+            margin: -30px auto 40px;
+            z-index: 10;
+            position: relative;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 5px 10px;
+        }
+
+        .login-btn {
+            border: 2px solid #6366f1;
+            color: #6366f1;
+            background: transparent;
+            border-radius: 12px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand font-weight-bold" href="index.html">🚀 My Blog</a>
-            <a href="login.html" class="btn btn-outline-light btn-sm">Admin Login</a>
+            <a class="navbar-brand" href="index.html">ASTRA BLOG</a>
+            <div class="ms-auto d-flex align-items-center">
+                <a href="login.html" class="login-btn text-decoration-none">
+                    <i class="fas fa-user-shield me-2"></i>Admin Panel
+                </a>
+            </div>
         </div>
     </nav>
 
     <header class="hero text-center">
         <div class="container">
-            <h1 class="display-4">Welcome to My Blog</h1>
-            <p class="lead">Beautiful stories, shared with the world.</p>
+            <h1 class="display-3 fw-bold mb-3">Stories That Inspire</h1>
+            <p class="lead opacity-75">Join our community and explore the most recent thoughts and ideas.</p>
         </div>
     </header>
 
-    <div class="container my-5">
-        <div id="blog-container" class="row g-4">
-            <!-- Blogs will appear here -->
+    <div class="container">
+        <div class="search-box">
+            <i class="fas fa-search text-muted me-2"></i>
+            <input type="text" id="searchInput" placeholder="Search for blogs..." onkeyup="filterBlogs()">
+        </div>
+
+        <div id="blog-container" class="row g-4 mb-5">
+            <!-- Blogs will appear here dynamically -->
         </div>
     </div>
 
+    <footer class="py-5 bg-white border-top mt-auto">
+        <div class="container text-center">
+            <p class="text-muted mb-0">&copy; 2025 Astra Blog. Built with ❤️ for the world.</p>
+        </div>
+    </footer>
+
     <script>
+        let allBlogs = [];
+
         document.addEventListener('DOMContentLoaded', () => {
-            const blogs = JSON.parse(localStorage.getItem('blogs')) || [];
+            allBlogs = JSON.parse(localStorage.getItem('blogs')) || [
+                {
+                    title: "Welcome to your new Blog!",
+                    content: "This is a sample blog post. You can delete this and add your own from the Admin Panel.",
+                    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1000",
+                    date: "Oct 24, 2025"
+                },
+                {
+                    title: "The Future of Design",
+                    content: "Exploring how AI is changing the landscape of modern web design and premium aesthetics.",
+                    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1000",
+                    date: "Oct 25, 2025"
+                }
+            ];
+
+            // Save initial sample if nothing exists
+            if (!localStorage.getItem('blogs')) {
+                localStorage.setItem('blogs', JSON.stringify(allBlogs));
+            }
+
+            renderBlogs(allBlogs);
+        });
+
+        function renderBlogs(blogs) {
             const container = document.getElementById('blog-container');
+            container.innerHTML = '';
 
             if (blogs.length === 0) {
-                container.innerHTML = '<div class="col-12 text-center text-muted"><h3>No blogs yet. Login to add some!</h3></div>';
+                container.innerHTML = `<div class="col-12 text-center py-5">
+                    <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-state-2130362-1800926.png" style="max-height: 200px;" class="mb-4">
+                    <h3 class="text-muted">No blogs found matching your search.</h3>
+                </div>`;
                 return;
             }
 
             blogs.forEach((blog, index) => {
                 container.innerHTML += `
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-sm-6">
                         <div class="card blog-card">
-                            ${blog.image ? `<img src="${blog.image}" class="card-img-top" style="height: 200px; object-fit: cover;">` : ''}
-                            <div class="card-body">
-                                <h5 class="card-title">${blog.title}</h5>
-                                <p class="card-text text-muted">${blog.content.substring(0, 100)}...</p>
-                                <a href="detail.html?id=${index}" class="btn btn-primary btn-sm w-100">Read More</a>
+                            <div class="card-img-container">
+                                <span class="badge-category">Tech</span>
+                                <img src="${blog.image || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1000'}" class="card-img-top" alt="${blog.title}">
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="text-muted small mb-2"><i class="far fa-calendar-alt me-1"></i> ${blog.date}</div>
+                                <h4 class="card-title fw-bold mb-3">${blog.title}</h4>
+                                <p class="card-text text-muted mb-4">${blog.content.substring(0, 100)}...</p>
+                                <a href="detail.html?id=${index}" class="btn-style text-decoration-none d-inline-block">Read Article</a>
                             </div>
                         </div>
                     </div>
                 `;
             });
-        });
+        }
+
+        function filterBlogs() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allBlogs.filter(b =>
+                b.title.toLowerCase().includes(term) ||
+                b.content.toLowerCase().includes(term)
+            );
+            renderBlogs(filtered);
+        }
     </script>
 </body>
 

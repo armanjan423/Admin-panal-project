@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Reader | Astra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: #fff;
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.8;
+            color: #334155;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-area {
+            max-width: 800px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+
+        .nav-float {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .btn-back {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 10px 20px;
+            color: #1e293b;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .date {
+            color: #6366f1;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav-float">
+        <a href="index.html" class="btn-back"><i class="fas fa-arrow-left me-2"></i> Gallery</a>
+    </div>
+
+    <div class="container mt-5 pt-4">
+        <div class="content-area">
+            <img id="blog-image" src="" class="hero-img" alt="Blog Image">
+            <div id="blog-date" class="date mb-2"></div>
+            <h1 id="blog-title" class="display-4 fw-bold mb-4" style="color: #0f172a;"></h1>
+            <div id="blog-content" style="font-size: 1.2rem; white-space: pre-line;"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            const blogs = JSON.parse(localStorage.getItem('blogs')) || [];
+
+            if (!blogs[id]) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const blog = blogs[id];
+            document.getElementById('blog-title').innerText = blog.title;
+            document.getElementById('blog-content').innerText = blog.content;
+            document.getElementById('blog-date').innerText = blog.date;
+            document.getElementById('blog-image').src = blog.image;
+            document.title = blog.title + " | Astra Reader";
+        });
+    </script>
+</body>
+
+</html>
